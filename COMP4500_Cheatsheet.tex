@@ -23,30 +23,11 @@
 
     \small
 
-    \section{RAM Model}
-    \subsection{Memory}
-    Infinite sequence of cells, contains $w$ bits. Every cell has an address starting at 1
-    \subsection{CPU}
-    32 registers of width $w$ bits.
-    \subsubsection{Operations}
-    Set value to register (constant or from other register). Take two integers from other registers and store the result of; $a+b$, $a-b$, $a\cdot b$, $a/b$. Take two registers and compare them; $a<b$, $a=b$, $a>b$. Read and write from memory.
-    \subsection{Definitions}
-    An algorithm is a set of atomic operations. It's cost is is the number of atomic operations. A word is a sequence of $w$ bits
-    \section{Worst-case}
-    Worst-case cost of an algorithm is the longest possible running time of input size $n$
-    \section{Dictionary search}
-    let $n$ be register 1, and $v$ be register 2\\
-    register $left\rightarrow1$, $right\rightarrow1$\\
-    while $left\leq right$\\
-    \indent register $mid\rightarrow(left+right)/2$\\
-    \indent if the memory cell at address $mid=v$ then\\
-    \indent\indent return yes\\
-    \indent else if memory cell at address $mid>v$ then\\
-    \indent\indent $right=mid-1$\\
-    \indent else\\
-    \indent\indent $left=mid+1$\\
-    return no\\\\
-    Worst-case time: $f_2(n)=2+6\log_2n$
+    \section{Hierarchy}
+    $$O(1) \leqslant O(log(n)) \leqslant O(n^c)$$
+    $$\leqslant O(n) \leqslant O(n^2)$$
+    $$\leqslant O(n^c) \leqslant O(c^n)$$
+
 
     \section{Big-O}
     We say that $f(n)$ grows asymptotically no faster than $g(n)$ if there is a constant $c_1>0$ such that $f(n)\leq c_1\cdot g(n)$ and holds for all $n$ at least a constant $c_2$. This is denoted by $f(n)=O(g(n))$.\\
@@ -60,54 +41,6 @@
     \section{Big-$\Theta$}
     If $f(n)=O(g(n))$ and $f(n)=\Omega(g(n))$, then $f(n)=\Theta(g(n))$ to indicate that $f(n)$ grows asymptotically as fast as $g(n)$
 
-    \section{Sort}
-    \subsection{Merge Sort}
-    Divide the array into two parts, sort the individual arrays then combine the arrays together.
-    $f(n)=O(n\log n)$.\\
-    This is the fastest sorting time possible (apart from $O(n\log\log n)$
-    \subsection{Counting Sort}
-    A set S of n integers and every integer is in the range [1, U]. (all integers are distinct)\\
-    \textbf{Step 1:} Let A be the array storing S. Create array B of length U. Set B to zero.\\
-    \textbf{Step 2:} For $i\in [1,n]$; Set x to A[i], Set B[x] = 1\\
-    \textbf{Step 3:} Clear A, For $x\in[1,U]$; If B[x] = 0 continue, otherwise append x to A
-    \subsubsection{Analysis}
-    Step 1 and 3 take O(U) time, while Step 2 O(n) time. Therefore running time is O(n + U) = O(U).
-
-    \section{Random}
-    RANDOM(x, y) returns an integer between x and y chosen uniformly at random
-
-    \section{Data}
-    \subsection{Data Structure}
-    Data Structure describes how data is stored in memory.
-    \subsection{LinkedList}
-    Every node stores pointers to its succeeding and preceding nodes (if they exist). The first node is called the head and last called the tail. The space required for a linkedlist is $O(n)$ memory cells. Starting at the head node, the time to enumerate over all the integers is $O(n)$. Time for assertion and deletion is equal to $O(1)$
-    \subsection{Stack}
-    The stack has two operations; Push (Inserts a new element into the stack), Pop (Removes the most recently inserted element from the stack and returns it. Since a stack is just a linkedlist, push and pop use $O(1)$ time.
-    \subsection{Queue}
-    The queue has two operations; En-queue (Inserts a new element into the queue), De-queue (Removes the least recently used element from the queue and returns it). Since a queue is just a linkedlist, push and pop use $O(1)$ time.
-
-    \section{Dynamic Arrays}
-    \subsection{Naive Algorithm}
-    \textbf{insert(e):} Increase n by 1, initial an array A' of length n, copy all n-1 of A to A', Set A'[n]=e, Destroy A.\\
-    This takes $O(n^2)$ time to do $n$ insertions.
-    \subsection{A Better Algorithm}
-    \textbf{insert(e):} Append e to A and increase n by 1. If A is full; Create A' of length 2n, Copy A to A', Destroy A and replace with A'\\
-    This takes $O(n)$ time to do $n$ insertions.
-
-    \section{Hashing}
-    The main idea of hashing is to divide the dataset S into a number m of disjoint subsets such that only one subset needs to be searched to answer any query.
-    \subsection{Pre-processing}
-    Create an array of linkedlist($L$) from 1 to $m$ and an array $H$ of length $m$. Store the heads of $L$ in $H$, for all $x\in S$; calculate hash value ($h(x)$), insert $x$ into $L_{h(x)}$. We will always choose $m=O(n)$, so $O(n+m)=O(n)$
-    \subsection{Querying}
-    Query with value $v$, calculate the hash value $h(v)$, Look for $v$ in $L_h(v)$. Query time: $O(\mid L_{h(v)}\mid)$
-    \subsection{Hash Function}
-    Pick a prime $p$; $p\geq m$, $p\geq$ any integer $k$. Choose $\alpha$ and $\beta$ uniformly random from $1,\ldots,p-1$. Therefore: $h(k)=1+(((\alpha k+\beta)\mod p)\mod m)$
-    \subsubsection{Any Possible Integer}
-    The possible integers is finite under the RAM Model. Max: $2^w-1$. Therefore $p$ exists between $[2^w,w^{w+1}]$.
-    \subsection{Timing}
-    Space: $O(n)$, Preprocessing time: $O(n)$, Query time: $O(1)$ in expectation
-
-    \section{Week 3 - Extra}
     When using `Direction 1: Constant Finding' setting $c_1$, always set it to match the coefficent on the LHS so that you can cancel.\\
     When trying to get a contradiction, try and isolate an $x \cdot c_1$ on the RHS, where $x \in \mathbb{Z}$, such that an expression that contains $n$ is $\leqslant x \cdot c_1$\\
     Make judicious use of the $max$ function when adding functions together
@@ -129,126 +62,6 @@
         \item If $log_{b} \alpha > \gamma$ then $f(n) = O(n^{log_\beta(a)})$
 
     \end{itemize}
-
-    %\section{Week 5}
-    %TODO
-
-    \section{SE Set 3}
-    Find out how many times a recurrence takes to terminate, and then proceed to eyeball the time complexity
-
-    \section{Hierarchy}
-    $$O(1) \leqslant O(log(n)) \leqslant O(n^c)$$
-    $$\leqslant O(n) \leqslant O(n^2)$$
-    $$\leqslant O(n^c) \leqslant O(c^n)$$
-
-    % \section{Trees}
-
-    % An undirected graph if a pair of $(V, E)$ where:
-
-    % \begin{itemize}
-    %     \item $V$ is a set of elements, eac of which is called a node
-    %     \item E is a set of pairs $u, v$ such that:
-    %     \begin{itemize}
-    %         \item $u$ and $v$ are distint nodes;
-    %         \item If $(u, v)$ is in $E$, then $(v, u)$ is also in $E$ - we say that there is an edge between $u$ and $v$.
-    %     \end{itemize}
-    % \end{itemize}
-
-    % A node may also be called a vertex. We will refer to $V$as the vertex set or the node set of the graph, and $E$ the edge set.
-
-    % For example, there is a graph $(V, E)$ wher
-
-    % $V = \{ a, b, c, d, e\}$
-    % $E = \{ (a, b),(b, a),(b, c),(c, b),(a, d),(d, a),(b, d), (d, b), (c, e),(e, c) \}$
-
-    % The number of edges equals $|E| / 2 = 10 / 2 = 5$
-
-    % Let $G = (V, E)$ be an undirected graph. A path in $G$ is a sequence of nodes $(v_1, v_2, ..., v_k)$ such that
-
-    % \begin{itemize}
-    %     \item For every $i \in [1, k-1]$, there is an edge between $v_i$ and $v_{i+1}$
-    % \end{itemize}
-
-    % A cycle in $G$ is a path $(v_1, v_2, ..., v_k)$ such that
-
-    % \begin{itemize}
-    %     \item $k \geqslant 4$
-    %     \item $v_1 = v_k$
-    %     \item $v_1, v_2, ..., v_k$ are distinct
-    % \end{itemize}
-
-
-    % An undirected graph $G = (V, E)$ is connected if, for any two distinct vertices $u$ and $v$, $G$ has a path from $u$ to $v$.
-
-    % A tree is connected undirected graph contains no cycles.
-
-    % A tree with $n$ nodes has $n - 1$ edges.
-
-    % Given any tree $T$ and anarbitrary node $r$, we can allocate a level to each node as follows:
-
-    % \begin{itemize}
-    %     \item $r$ is the root of $T$ - this is leel 0 of the tree
-    %     \item All the nodes that are $n$ edge away from $r$ constitute level $n$ of the tree
-    % \end{itemize}
-
-    % The number of levels is called the height of the tree. We say that $T$ has been rooted once a root has been designated.
-
-    % Consider a tree $T$ that has been rooted.
-
-    % Let $u$ and $v$ be two nodes in $T$. We say that $u$ is the parent of $v$ if:
-
-    % \begin{itemize}
-    %     \item $v$ is at the level immediately below $u$
-    %     \item There is an edge below $u$ and $v$
-    % \end{itemize}
-
-    % Accordingly, we say that $v$ is a child of $u$.
-
-
-    % Let $u$ and $v$ be two nodes in $T$. We say that $u$ is the ancestor of $v$ if one of the following holds:
-
-    % \begin{itemize}
-    %     \item $v = u$
-    %     \item $u$ is the parent of an $v$
-    %     \item $u$ s the parent of an ancestor of $v$
-    % \end{itemize}
-
-    % Accordingly, we say that $v$ is a decendant of $u$.
-
-    % In particular, if $u \neq v$, we say that $u$ is a proper ancestor of $v$, and likewise, $v$ is a proper descendant of $u$.
-
-    % Let $u$ be a node in a rooted tree $T$. The subtree of $u$ is the part of $T$ that is ``at or below" $u$.
-
-    % In a rooted tree, a node is a leaf node if it has no children; otherwise it is an internal node.
-
-    % Let $T$ be a rooted tree where every internal node has at least 2 child nodes. If $m$ is the number of leaf nodes, then the number of internal nodes is at least $m-1$.
-
-    % A $k$-ary tree is a rooted tree where every internal node has at most $k$ child nodes.
-
-    % A $2$-ary tree is called a binary tree.
-
-    % Consider a binary tree with height $h$. Its level $n$ $(0 \leqslant n \leqslant h - 1)$ is full if it contains $2^n$.
-
-    % A binary tree of height $h$ is complete if:
-
-    % \begin{itemize}
-    %     \item Levels $0, 1, ..., h-2$ are all full
-    %     \item At Level $h-1$, the leaf nodes are "as far left as possible"
-    % \end{itemize}
-
-    % A complete tree with $n \geqslant 2$ nodes has height $O(\log n)$
-
-
-    % \dirtree{%
-    %     .1 debug.
-    %     .2 filename.
-    %     .2 modules.
-    %     .3 module.
-    %     .3 module.
-    %     .3 module.
-    %     .2 level.
-    %     }
-
 
 
 \end{multicols}
